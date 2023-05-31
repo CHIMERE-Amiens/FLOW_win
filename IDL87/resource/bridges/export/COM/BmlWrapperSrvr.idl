@@ -1,0 +1,96 @@
+import "oaidl.idl";
+import "ocidl.idl";
+#include "wrapper_guids.h"
+
+#define __MSCOMPAL_NO_EXPORT_API__
+#define __IDL_BML_DEFINES_H__
+#include "idl_pal_mscom.h"
+
+
+[
+    uuid(GUID_LIBBmlWRAPPER),
+    version(1.0),
+    helpstring(HELPSTR_LIBBmlWRAPPER)
+]
+library LIBBmlWRAPPER
+{
+    importlib("stdole2.tlb");
+
+	typedef [public,v1_enum] enum IDLBML_ProcessControl
+	{
+		IDLBML_CONTROL_INPROC			= 0,
+		IDLBML_CONTROL_OUTPROC			= 1,
+	} IDLBML_ProcessControl;
+
+	typedef [public,v1_enum] enum IDLBML_ParameterFlags
+	{
+		IDLBML_PARMFLAG_CONST			= 0x00000001,
+		IDLBML_PARMFLAG_IN_OUT			= 0x00000002,
+		IDLBML_PARMFLAG_CONVMAJORITY	= 0x00004000,
+	} IDLBML_ParameterFlags;
+
+    typedef [public,v1_enum] enum IDLBML_LicenseFlags
+    {
+        IDLBML_LIC_FULL					= 0x00000000,
+        IDLBML_LIC_RUNTIME				= 0x00000004,
+        IDLBML_LIC_VM					= 0x00002004,
+        IDLBML_LIC_LICENSED_SAV			= 0x0000000C,
+    } IDLBML_LicenseFlags;
+
+	// Pick up the events outgoing source interface
+	#include "mscompal_wrapper_events.idl"
+
+	//---------------------------------------------------------------------------------------------
+    [
+        object,
+        uuid(GUID_IBmlWRAPPER),
+        dual,
+        nonextensible,
+        helpstring(HELPSTR_IBmlWRAPPER),
+        pointer_default(unique)
+    ]
+    interface IBmlWRAPPER : IDispatch
+    {
+        [propget,hidden] HRESULT Cookie     ([out,retval] IDL_MSCOMPAL_COOKIE_T* Cookie);
+
+        HRESULT SetProcessName              ([in]         BSTR  Name);
+        HRESULT GetProcessName              ([out,retval] BSTR* Name);
+
+        HRESULT GetIDLObjectVariableName    ([out,retval] BSTR* Name);
+        HRESULT GetIDLObjectClassName       ([out,retval] BSTR* Name);
+
+        HRESULT SetIDLVariable              ([in] BSTR bstrVar, [in]         VARIANT  Value);
+        HRESULT GetIDLVariable              ([in] BSTR bstrVar, [out,retval] VARIANT* Value);
+        HRESULT ExecuteString               ([in] BSTR bstrCmd);
+
+        HRESULT GetLastError                ([out,retval] BSTR* LastError);
+        HRESULT Abort                       (void);
+
+        HRESULT CreateObject                ([in] long argc,
+                                             [in] VARIANT argval,
+                                             [in] VARIANT argpal);
+        HRESULT CreateObjectEx              ([in] long argc,
+                                             [in] VARIANT argval,
+                                             [in] VARIANT argpal,
+											 [in] long flags);
+        HRESULT DestroyObject               (void);
+
+        // Pick up the methods/properties specific for this wrapper object
+        #include "Wrapper.idl"
+
+    }; // interface IBmlWRAPPER
+
+
+	//---------------------------------------------------------------------------------------------
+    [
+        uuid(GUID_COCLASSBmlWRAPPER),
+        helpstring(HELPSTR_COCLASSBmlWRAPPER)
+    ]
+    coclass COCLASSBmlWRAPPER
+    {
+        [default] interface IBmlWRAPPER;
+        [default, source] dispinterface _DIDLWrapperEvents;
+
+    };
+
+};

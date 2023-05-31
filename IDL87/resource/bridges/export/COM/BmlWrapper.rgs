@@ -1,0 +1,27 @@
+HKCR
+{
+    %PROGID% = s '%OBJNAME% Class'
+    {
+        CLSID = s '{%COCLASSGUID%}'
+    }
+    %VERINDPROGID% = s '%OBJNAME% Class'
+    {
+        CLSID = s '{%COCLASSGUID%}'
+        CurVer = s '%PROGID%'
+    }
+    NoRemove CLSID
+    {
+        ForceRemove {%COCLASSGUID%} = s '%OBJNAME% Class'
+        {
+            ProgID = s '%PROGID%'
+            VersionIndependentProgID = s '%VERINDPROGID%'
+            ForceRemove 'Programmable'
+            InprocServer32 = s '%MODULE%'
+            {
+                val ThreadingModel = s 'Apartment'
+            }
+            val AppID = s '{%APPIDGUID%}'
+            'TypeLib' = s '{%TYPELIBGUID%}'
+        }
+    }
+}

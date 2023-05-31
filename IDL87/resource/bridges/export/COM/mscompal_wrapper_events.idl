@@ -1,0 +1,108 @@
+/*
+$Id: //depot/InDevelopment/integration/ENVI_product/idl/idl_src/idl/bridge/MscomWrapperTmpl/mscompal_wrapper_events.idl#2 $
+*/
+
+typedef [public,v1_enum] enum IDLBML_MouseButtons
+{
+    IDLBML_MBUTTON_LEFT       = 0x1,
+    IDLBML_MBUTTON_RIGHT      = 0x2,
+    IDLBML_MBUTTON_MIDDLE     = 0x4,
+} IDLBML_MouseButtons;
+
+typedef [public,v1_enum] enum IDLBML_KeyStates
+{
+    IDLBML_KEYSTATE_SHIFT     = 0x1,
+    IDLBML_KEYSTATE_CTRL      = 0x2,
+    IDLBML_KEYSTATE_CAPSLOCK  = 0x4,
+    IDLBML_KEYSTATE_ALT       = 0x8,
+} IDLBML_KeyStates;
+
+typedef [public,v1_enum] enum IDLBML_EventIds
+{
+    IDLBML_EVENTID_ONMOUSEDOWN              = 1,
+    IDLBML_EVENTID_ONMOUSEUP                = 2,
+    IDLBML_EVENTID_ONMOUSEMOVE              = 3,
+    IDLBML_EVENTID_ONMOUSEDOUBLECLICK       = 4,
+    IDLBML_EVENTID_ONMOUSEENTER             = 5,
+    IDLBML_EVENTID_ONMOUSEEXIT              = 6,
+    IDLBML_EVENTID_ONKEYDOWN                = 7,
+    IDLBML_EVENTID_ONKEYUP                  = 8,
+    IDLBML_EVENTID_ONSIZE                   = 9,
+    IDLBML_EVENTID_ONIDLNOTIFY              = 10,
+    IDLBML_EVENTID_ONIDLOUTPUT              = 11,
+    IDLBML_EVENTID_ONMOUSEWHEEL             = 12,
+}IDLBML_EventIds;
+
+typedef [public,v1_enum] enum IDLBML_KeyboardEvents
+{
+	IDLBML_KEYBOARD_EVENT_SHIFT            = 1,
+	IDLBML_KEYBOARD_EVENT_CONTROL          = 2,
+	IDLBML_KEYBOARD_EVENT_CAPSLOCK         = 3,
+	IDLBML_KEYBOARD_EVENT_ALT              = 4,
+	IDLBML_KEYBOARD_EVENT_LEFT             = 5,
+	IDLBML_KEYBOARD_EVENT_RIGHT            = 6,
+	IDLBML_KEYBOARD_EVENT_UP               = 7,
+	IDLBML_KEYBOARD_EVENT_DOWN             = 8,
+	IDLBML_KEYBOARD_EVENT_PAGE_UP          = 9,
+	IDLBML_KEYBOARD_EVENT_PAGE_DOWN        = 10,
+	IDLBML_KEYBOARD_EVENT_HOME             = 11,
+	IDLBML_KEYBOARD_EVENT_END              = 12,
+	IDLBML_KEYBOARD_EVENT_DEL              = 127,
+}IDLBML_KeyboardEvents;
+
+
+#define SZ_MBTNKEYSTATE_VALUESORD "Button As IDLBML_MouseButtons, KeyState As IDLBML_KeyStates.  These may contain one or many values OR'd together."
+#define SZ_KEYCODEISASCII         "KeyCode is the ASCII key value"
+#define SZ_KEYSTATE_WHEELDELTA    "KeyState As IDLBML_KeyStates.  These may contain one or many values OR'd together.  Wheel delta is +/-1, +/-2, etc."
+
+
+
+//---------------------------------------------------------------------------------------------
+// This is the definition for the outgoing source interface
+[
+    uuid(BB308B8B-8DB5-428d-877D-635CDCD49E7B),
+    helpstring("IDL Export Bridge Wrapper Events interface.  For ActiveX controls, all methods/events are fired.  For standard COM objects, only OnIDLNotify and OnIDLOutput are fired.")
+]
+dispinterface _DIDLWrapperEvents
+{
+    properties:
+    methods:
+        [id(IDLBML_EVENTID_ONMOUSEDOWN),helpstring(SZ_MBTNKEYSTATE_VALUESORD)]
+        HRESULT OnMouseDown(long Button, long KeyState, long x, long y, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONMOUSEUP),helpstring(SZ_MBTNKEYSTATE_VALUESORD)]
+        HRESULT OnMouseUp(long Button, long KeyState, long x, long y, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONMOUSEMOVE),helpstring(SZ_MBTNKEYSTATE_VALUESORD)]
+        HRESULT OnMouseMove(long Button, long KeyState, long x, long y, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONMOUSEDOUBLECLICK),helpstring(SZ_MBTNKEYSTATE_VALUESORD)]
+        HRESULT OnMouseDoubleClick(long Button, long KeyState, long x, long y, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONMOUSEWHEEL),helpstring(SZ_KEYSTATE_WHEELDELTA)]
+        HRESULT OnMouseWheel(long KeyState, long WheelDelta, long x, long y, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONMOUSEENTER),helpstring(SZ_MBTNKEYSTATE_VALUESORD)]
+        HRESULT OnMouseEnter(void);
+
+        [id(IDLBML_EVENTID_ONMOUSEEXIT)]
+        HRESULT OnMouseExit(void);
+
+        [id(IDLBML_EVENTID_ONKEYDOWN),helpstring(SZ_KEYCODEISASCII)]
+        HRESULT OnKeyDown(long KeyCode, long KeyState, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONKEYUP),helpstring(SZ_KEYCODEISASCII)]
+        HRESULT OnKeyUp(long KeyCode, long KeyState, [in,out]long* ForwardToIdl);
+
+        [id(IDLBML_EVENTID_ONSIZE)]
+        HRESULT OnSize(long width, long height, [in,out]long* ForwardToIdl);
+
+        // Notification message from IDL
+		[id(IDLBML_EVENTID_ONIDLNOTIFY), helpstring("Notifications from IDL via IDLitComponent::SendOnNotify.")]
+        HRESULT OnIDLNotify(BSTR String1, BSTR String2);
+
+        // IDL Output
+        [id(IDLBML_EVENTID_ONIDLOUTPUT)]
+        HRESULT OnIDLOutput(BSTR Output);
+};
+

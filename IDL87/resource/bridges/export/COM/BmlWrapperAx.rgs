@@ -1,0 +1,42 @@
+HKCR
+{
+    %PROGID% = s '%OBJNAME% Class'
+    {
+        CLSID = s '{%COCLASSGUID%}'
+    }
+    %VERINDPROGID% = s '%OBJNAME% Class'
+    {
+        CLSID = s '{%COCLASSGUID%}'
+        CurVer = s '%PROGID%'
+    }
+    NoRemove CLSID
+    {
+        ForceRemove {%COCLASSGUID%} = s '%OBJNAME% Class'
+        {
+            ProgID = s '%PROGID%'
+            VersionIndependentProgID = s '%VERINDPROGID%'
+            ForceRemove 'Programmable'
+            InprocServer32 = s '%MODULE%'
+            {
+                val ThreadingModel = s 'Apartment'
+            }
+            val AppID = s '{%APPIDGUID%}'
+            ForceRemove 'Control'
+            ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 101'
+            'MiscStatus' = s '0'
+            {
+                '1' = s '%OLEMISC%'
+            }
+            'TypeLib' = s '{%TYPELIBGUID%}'
+            'Version' = s '1.0'
+            'Insertable'
+            'Implemented Categories'
+            {
+				ForceRemove {40FC6ED4-2438-11cf-A3DB-080036F12502}
+				ForceRemove {40FC6ED5-2438-11cf-A3DB-080036F12502}
+				ForceRemove {7DD95801-9882-11CF-9FA9-00AA006C42C4} 
+				ForceRemove {7DD95802-9882-11CF-9FA9-00AA006C42C4} 
+            }
+        }
+    }
+}
