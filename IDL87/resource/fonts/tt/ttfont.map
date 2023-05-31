@@ -1,0 +1,24 @@
+#-----------------------------------------------------------------------------------------
+#								Size Correction
+#	Fontname			Filename		Direct	Object
+#-----------------------------------------------------------------------------------------
+"Helvetica"			Arimo.ttf		0.741655	1.0
+"Helvetica Bold"		Arimo-Bold.ttf		0.741655	1.0
+"Helvetica Italic"		Arimo-Italic.ttf	0.741655	1.0
+"Helvetica Bold Italic"		Arimo-BoldItalic.ttf	0.741655	1.0
+"Courier"			Cousine.ttf		0.672824	1.0
+"Courier Bold"			Cousine-Bold.ttf	0.672824	1.0
+"Courier Italic"		Cousine-Italic.ttf	0.672824	1.0
+"Courier Bold Italic"		Cousine-BoldItalic.ttf	0.672824	1.0
+"Times"				Tinos.ttf		0.672672	1.0
+"Times Bold"			Tinos-Bold.ttf		0.672672	1.0
+"Times Italic"			Tinos-Italic.ttf	0.672672	1.0
+"Times Bold Italic"		Tinos-BoldItalic.ttf	0.672672	1.0
+"Symbol"			Tinos-Symbol.ttf	0.833529	1.0
+"Monospace Symbol"		Cousine-Symbol.ttf	0.668945	1.0
+"ENVI Symbols"			envisym_.ttf		1.0		1.0
+"DejaVuSans"			DejaVuSans.ttf		0.832524	1.0
+"DejaVuSans Bold"		DejaVuSans-Bold.ttf	0.832524	1.0
+"DejaVuSans Italic"		DejaVuSans-Oblique.ttf	0.832524	1.0
+"DejaVuSans Bold Italic"	DejaVuSans-BoldOblique.ttf	0.832524	1.0
+"DejaVuSymbol"			DejaVuSymbol.ttf	0.832524	1.0
