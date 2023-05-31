@@ -1,0 +1,406 @@
+===================================================The post-Doc of LIU ======================================================================
+[Update 2023.02.19]
+Debug and optimasition:  aliasiong , Image-> Positife / Neagtif in EPI DOI windows. (find the current tab first then do the aliasing)
+
+
+[Update 2023.01.26]
+Added support for another readable format for physiological signal files
+Adjusted the sampling frequency of the sensor from 500Hz to 495Hz for more accuracy
+
+[Update 2022.12.14]
+Fixed the problem that we can't open the DICOMDIR of Cambrdge, this is beacuse in this GE mechine, there is a 'KEY OBJECT DOC' type files.
+
+[Update 2022.12.14]
+Optimisation of the back ground correction for GE.  GE the phase contrasht image is build with both phase constrast image and amplitude image, so there has an ohter way to calcult the velocity. in order to fix for all the constructor, we used the indensity of phase contrast image directly. 
+
+[Update 2022.12.12]
+Added the function to save results in JSON format
+
+[Update 2022.12.10]
+Fixed the calculation of Volume curves.
+
+[Update 2022.10.10-20]
+Modify the contrast image by presing+drag wheel, in main interface and CINE-PC interface
+in CINE-PC interface we can change image by roing the wheel
+Auto definir image contrast by double click wheel mouse. in main interface and CINE-PC interface.
+
+A New function that can auto do the back groud correction specifiquly for CINE-PC, faster and more correct
+A new function Semi-auto do the back groud correctiong with allow us modify a lot of vraible. 
+
+Added language option to show the names in Levels by fr. ou en., and will always used the original file name to save the file.
+...
+
+[Update 2022.10.09]
+Changed the Max and Min stroke volume to Positif and negatif Stroke volume.
+
+
+[Update 2022.10.09]
+Added functions : we can use the drag wheel ,ouse button to adjust the contrast in main interfave and in the CINE-PC interface.
+in the CINE-PC iterface dess window, auto adjust contrast by double clikcs left mouse button.
+
+[Update 2022.10.07]
+Debug: Load ROI, the calibration is nor correct because the number of VZM_zone_manu.Xverts is not stable.
+
+[Update 2022.10.02]
+Update in respiration interface:
+- The variation of Pulsatility index and stroke volume average ((positif + negatif)/2) parameters with respiratory phase delay can be analyzed.
+- The calculation of some parameters has been modified, and the flow curve has been interpolated before the calculation of parameters such as average and pulse volume, which reduces the processing speed but increases the accuracy
+- Added Stroke volume net for the reconstruction curve
+-The function of defining the respiratory interval position has been optimized. The start and end positions can be defined separately, and parameters such as the number of included respiratory periods and the average respiratory period are automatically displayed.
+
+[Update 2022.09.30]
+Added the Pulsatility index, strokevolume pos, neg, mean in the respi interval.
+Debug the Mean flow calculation and vesualisation in respi interval
+
+
+[Update 2022.09.29]
+When chosien 'Option -> negative', the flow rate cruves will shown in red color.
+In Image-signal interface, added 4 new cruves to show siganl of all cycle - Pulsatility index, Stroke volume possitife, stroke volume negative,   
+Stroke volume mean
+
+
+[Update 2022.09.28]
+Opptimation in Charging series; so many loops in the old code; put the  loopf of tiger_time and another loop together: speed has been inoroved (22s -> 8s)
+Opptimation in Series list: re-write Dicomseries_phillips.get_type, the speed has been inmproved (0.98s -> 0.61s).   
+
+
+[Update 2022.09.27] Used 4 weeks total
+Big Updata!!!!  i writen a new function Read_DICOMDIR to Read the DICOMDIR file. the speed can inprove 8-20 times. (used 1 mouth to write this function)
+Now we can load the series list very very fast!  (22s -> 5s)
+
+ 
+[Update 2022.09.05]
+Debug : aliasing by image algorthem corrected
+new function : csf auto de aliasing created, for correct the aliasing by analysing the mean flow.
+Debug : put the Dicomdir.pro in the end to complier, or it will cause problem for the GE 
+
+[Update 2022.06.30]
+Debug BREST_REVERT: the FOV is not correct, in other phillips the FOV (ROW&COL) tag is:('0028'x, '0010'x)[0] and ('0028'x, '0011'x)[0]
+but in this dicomdir the FOV is ('0028'x, '0010'x)[1] and ('0028'x, '0011'x)[1] 
+
+[Update 2022.05.23]
+Debug : Dicomdir of Miami, the number of phase image is 1000+, tigerdelay parameter is intarr type, changed to ULonarr.
+
+[Update 2022.03.24]
+Changed defeut Bpm from 70 to 1.
+Fixed for Dicomdir whom cannt be loaded with the SOP Class UID '1.2.840.10008.5.1.4.1.1.11.1', defined it as a 'Normal' type.
+Fixed the tab_seires of Phillips is not in order.
+[Update 2022.03.22]
+Debug : probleme to load GE and bruker 
+        fixed GE : little probleme from last upload. 
+        fixed Bruker : 1. Number of series too large (10001 etc.), Fix() is not enough so changed to Long() 
+                       2. Problem to show the VENC, the unit of UPJV's Bruker is cm/s so multi 10 
+                       3. Cant use Dicomdir to load the descruption of series and even some image has no tag (0008,103e), 
+                          so added a fuction that can load the tag (0018,1030) as the nom series.
+        fixed rebuilding :   proprite -> Plug-in: dont .reser_session 
+                                                  dont Resolve_ALL
+                                                  Creer file : .:flow.sav 
+                             proprite -> projet : Change the name as flow.  
+                          
+[Update 2022.03.14]
+Debug : A huge one! CHU cean acquisition cannot be loaed
+        Problem 1 : For the type of Diffusion who is the RGB type images, the tag (0020,0032) image position is different with others: 
+          fixed : added a test process to jump this type series
+
+     	Problem2 : The series number is not in order, beacuse the dcm files is not in correct order 
+          fixed : after created the list_series, re-order the series base on the serie_ID. 
+
+        Problem 3 : IDLffDICOm cannot read the compressing type : JPEG Lossless, NOn-Hierarchical, process 14, which has a transfer UID : 1.2.840.10008.1.2.4.70
+          fixed : use 'IDLffDICOMEX' to change all the dcm files' UID to 1.2.840.10008.1.2.1, in this way IDLffDICOM can load the images
+                  To use the programe to change the compressing type ask LIU, this programe needs the lisences of DicomTools.
+        
+        Problem 4 : The venc is showed as a negative value. beacuse for simens the venc value cannt be export with the tag as philips
+          fixed : export the venc form a str value.
+ 
+[Update 2022.02.21]
+Debug : agter GE software builed , the dicomdir cannot be loaded. fixed : deleted the commende that just for test a calue in exportseries.pro
+===================================================The Thèse of LIU =========================================================================
+[Update 2021.09.15]
+optimisied the CF_auto segmentation: change the real and imagenary derivie to juse realt part one, SNR improved 
+Added a test modle in the Option->test_mode. this allowd us to analysise the pixel signal.
+
+[Update 2021.04.20]
+Added a Slider(Select Respi) that can autoModify the Start bar and Stop bar in the interface defini_respi2.
+
+[Update 2021.04.19]
+changed the function javaenable() to '1' in the flow.pro, because in IDL 8.8 this fucntion will cause a bug when close the main interface.
+
+[Update 2021.04.06]
+Added parametre average Amplitude of CCs in the respi_interface 
+
+[Update 2021.04.02]
+Debug funtion auto load physologie signal.     
+For the situation that collect time before 10:00 it will save the time as 9:xx:xx.x Instead of 09:xx:xx, therefore the fuction auto load physologie signal hase a bug. 
+
+[Update 2021.03.30]
+Debug fuction anti-aliasing all series positif/negatif  for EPI-PC has been fixed.
+
+[Update 2021.03.18]
+Added aparmetre in the main interface,   Martrix acquisition (to calcule the acquisition pixel size)
+
+[Update 2021.03.10]
+-!!!!!!New interfave for analyse CCS in differents respiration interval 
+
+[Update 2021.02.20]
+Debug : changed the color of definir bruit (BL_image)
+Debug : auto definir bruit in zoom.
+New funtion : Save ROI and ROI_bruit, and Load them in the next time. (both in 2D cine and EPI-PC)
+
+[Update 2021.02.19]
+For GE - Signa premier mechine; the phase intensite is already equal velocity: for this sitiation, added a function in dicomseriege-> getPhaseType : if return eq Phase_diff, then we can use the intensit of pixel as velocity
+
+[Update 2021.01.21]
+Added auto_definir_Bruit in Zoom interface (For Cine2D)
+
+[Update 2021.01.21]
+Modify signal segmentation results in the Signal interface:  Ctrl + Left Mouse = Add / delete Cut Point 
+                                                             Ctrl + Right Mouse = corriger the left Cut Point
+Porting Aliasing corriation function in the EPI-PC interface
+Optimized Frequency signal processing interface, and added a function to show the signal spectrum
+
+[Update 2021.01.20]
+Optimized algorithm for Cut signal; now it can find the real first minimum point. 
+                                    auto definir parametre base on Maxi frequency instand of cardiaque
+
+[Update 2021.01.19]
+Optimized sequence list interface
+Optimized algorithm for automatic loading of physiological signals
+
+[Update 2020.12.22]
+ameliorer Algorithme de ouverlay in main interface 
+
+[Update 2020.12.14]
+Debug, FS_loadPhyso can not loade the signal if the first interval is not the correct one.now it's worked.
+
+[Update 2020.11.13]
+Adjusted the interface layout.
+new function, main interface has a new option button 'Option'. In this option
+1.hide the information 
+2.we can modifier the windows size(original size and small size with scle)
+3.we can define venc, or set it back to the original value. if we change venc it will be shown in the information with red color.
+
+
+[Update 2020.10.26]
+fixed this ↓ problem，change all '/' to '\'. in mac the chemain isnt the same type Sabrer as in windows. (already tested Philips Semens & Bruker)
+
+[Update 2020.10.26]
+has problem in mac.os, not already fixed, need to test phillps dicomdir!
+
+[Update 2020.10.21]
+Fixed the problem that Bruker BioSpin MRI GmbH has no value of venc, the tag (0018,9014) is void, and also it's rescale intercept (0028,1052)is equal 0. but it has rescale slop (0018,1053), so if we calclue the venc = max |intensite| * recale_slop
+
+[Update 2020.10.16]
+Debug: 20201016 in dicomdir_definir, the problem is semensArea cant not find the venc, caus tab_imageType is always test the first image, all series will be define as Amplitude, so that there will have no venc. corrige tpye_image = tab_imagetype[0] to tpye_image = tab_imagetype[cpt]
+
+[Update 2020.08.14]
+Le vesion for Mac is finished,and also writen a Instructions to installe VM IDL on MAC
+
+[Update 2020.08.03]
+Debug Flowreslut-> save EPI: save Conv-PC in interface EPI has problem. not correct form code
+
+[Update 2020.07.03]
+- Debug :vit_Amplitude_influence  funcontion has a little problem in Dicom GE (add the parametre vascflags)
+
+[Update 2020.06.30]
+- New Signal  Intensity of Amplitude images can been shown in the signal windows.
+- New function : right clicks on the Signal that in the liste_tree, then we can choice the information we want to show it in a new window.
+
+[Update 2020.06.26]
+-Debug: for some Phillips construteur name is called only 'Phillips  ', in this situation we defined it to constructrur_id = 3
+
+[Update 2020.05.11]
+- Optimization : dilate 2 more pixe contour the vessels to create BL image (for auto definir bruit)
+- Change the table in interface reconstruiction CC, change begin number 0 to 1.
+- Added unit in the graphique Respi signal, CC signal and info_label (interface reconstruction CC)
+- Optimization : if the dicomdir is not correct, now will show a dialog window to point out the .dcm 's path is not as same as the path in dicomdir.
+- Change the unit of respi signal(relate Pa -> Pressure)
+- !! A new function that can load physologie signal automatiquly. auto find the correct file and load the respi signal, and ppu signal to the software.
+
+[Update 2020.04.07-2020.05.01 new version L.v 2.0]
+- !!!New interface 'Reconstruction  CC base on Signal Respiration'  first version
+
+[Update 2020.04.07]
+-Function show and save the Mean Cycle Cardiaque during a interval.(with the start time and stop time)
+
+[Update 2020.04.06]
+- After auto definir btuit will show the zone image in a free window 
+- now the interface Signal will affiche the debruit signals(flow;velocity;volume) as color green 
+
+[Update 2020.04.02]
+- Semi auto difinir bruit function is finished.
+- Auto difinir bruit function is finished.
+- we can see the intensite of Amplitude image(averages of Max/Mean/Min).
+
+[Update 2020.02.20]
+-Optimise the PA_filter, we can choice Atery or vein to auto difine the phase slider. also can self define the phase slider.
+
+[Update 2020.02.19]
+-added function keep mask now can used in dynamic segementation(Grow_Region)
+
+[Update 2020.02.14]
+-added function keep mask for stable segementation in Dynamic Segement window(next step valid in Dynamic segementation)
+
+[Update 2020.02.12]
+-add a color bar for image BL image(definir bruit)
+-optimized the grow region 
+-added function clear mask in the dynamique segementation; but it''s still have problem in the keep mask(multi maske segementation), will fix it after 
+
+[Update 2020.02.11]
+-Added the fuction that can definir the bruit zone in the image Bruit limite. 
+
+[Update 2020.02.01]
+-Added all the units for every Signal even for the Signal Trait
+
+[Update 2020.01.27]
+-In the EPI window time units 'ms' has been changed to 'Sec'; debug in the part Traitement(FFT & Cut) and part Signal(Axie objet).
+
+[Update 2020.01.23]
+-Can save the DynamicSegement image in the ficher
+
+[Update 2020.01.22]
+-added a tag for information during time ('0018'x,'9073'x)
+-changed the file noise as a .txt and easier to copy the values in execel
+
+[Update 2020.01.21]
+-Debug: After Active filter sometimes has plusiere F_Plus for fft Signal(0.8Hz-2Hz),Now Spectral auto is worked.
+
+[Update 2020.01.20]
+-Debug : Now we can load the DicomDir of DICOMSerieSiemensTrioTim && DICOMSerieSiemensSonataVision (Sometimes no value in age tag '0010'x, '1010'x)
+
+[Update 2020.01.17]
+-Deleted the bouttons unnecessary for Segement algoritheme.
+
+[Update 2020.01.14]
+-!!!Fixed the Segmentation Fix now it can automaticly find the right frenqueny of plus and denfine the phase shift. 
+
+[Update 2020.01.06]
+-optimise function dynamique segementation Grow_reigion: can adpat the position of seed point, so that enhanced algorithm robustness
+-Others debug(like the tracking ball now can switch images in tab_DynqmicSegmentation and also in tab_Segementation)
+
+[Update 2019.12.23]
+-Debug : The de noise didn't start at 1st value, cause the bruit arrty has been creered as N+1 elements.Now it's works.
+-Debug: refresh the image in window Dynamic_Segement
+
+[Update 2019.12.18]
+-Added a function that we can change the current image to show with double cilk mouse in the Signal part window. 
+-Added a tracking ball in the draw window to helo us optimaise the position of mouse 
+-Added a now Signal in the liste that is stand decition of the ROI during all the time.(used to compaire the stable tisse/water in different sequence)
+-Added the information in the part Signal like the current mose position; the current value in the selected image; stdev and mean value of the Signal current.
+
+[Update 2019.12.05]
+-Reconstructed the interface in the image part to simplified teh usage: now there just has two tab of segmetation stable_segementaion and dynamique segementation  
+-The third segementation -> CF_Auto in finished, now we can use it to segement automatiquily the stable ROI,for the further i will optimiser it with the fucntion dynamiquly segementation.
+
+[Update 2019.11.21]
+-Debug : cannt read files directly from the disc (Modify read permissions)
+
+[Update 2019.11.07]
+-Debug images of SIEMENS. The last series and the last image is illegal, Skip them to create The tab_series.
+-Debug some series isnt sort the images in right ordre; now the software can modify it to correct ordre automatiquely 
+
+[Update 2019.09.17]
+-Debug the show problem in the part segement Travrse. Filter Phase + Amplitude allways show iamge in the window wIT_leftDraw
+
+[Update 2019.09.10]
+-Debug images of SIEMENS who isn't square has a problem to show. row nned to swap with clone.
+-Added all files whom are needed to complite the application 
+
+[Update 2019.09.04]
+-We can add delete the ROI or do the open or close (morphology) in the left draw window(Part.Image)
+-Part.Image a new text bar that can show the intensity of the pixel current
+-Finished the new function Segemnetqtion based on Grow region with functions:
+ definir seed;segement; apply to all image and copy roi to all image 
+-Debug : fixed the fuction to calcule stroke volue, now we can get the stroke value as [Postif_volue,Mean_Value,Negqtif_Value]
+-Debug the filter Amplitude-Phase now is better to use
+-New tag information tag(0018,0091) ETL can be shown in the mail window
+-Normaliser the second signal in the EPI_ROI image part(autorise planer and zoom)
+-Function to Save the interplotae values(32 Values) in the 2D-PC ROI and EPI-ROI
+-Added a new tab in the EPI ROI that allow us to define the noise in the amplitude image.
+-We can save a new forme txt file for EPI Series. 
+-Added the value Max and Min of each Cycle in the part CUT 
+-Autorise open the Definir-Noise tab window both in 2D ROI and EPI ROI. 
+
+[Update 2019.07.15]
+-Debug : Changed the limite of filter special LCS to 21cm/s
+         Fixed the error of Stroe volume (The delay_time isn't begin from 0)
+         Closed the autorise interpolate fuction, for obtenir the correct value Volume_DPL
+
+[Update 2019.06.06]
+-Debug : the type Bruiker can load in the logiciel: the bug is in the :
+  1.no tag for the velocity encoding 
+  2.give a venc directement
+  3.the Serie only have phase image so we changed the processing in DicomSerieBurker(the original has been commended ; original 06/06/2019)
+
+
+[Update 2019.06.05]
+- function : Load the signal of phtsologi ppu and rep in the window Part Signal
+
+[Update 2019.05.29]
+-Optimized the program dicomdir that can improved the read speed by 3 times 
+-Adaptive plot fft in the part Signal(dont need to modifier the Y rang Slider)
+-debug : the tab switch in the part Image 
+-debug: add the 3 units in X axis for signal Surface(%CCof image , ms , images)
+-Add a animation button in the tab TaverSeg to show the Phase and Amplitude images 
+-TaverSege draw window allow us to show image by using Wheel 
+-Main window: add a main button (View) to show or hide the information of image 
+-debuf: Fixed the bug of save function that cant creer the right name for 2D-cine PC series (for the series 2D who have no 96 images will define as EPI)
+-Add the information Age of patiens in the main window.
+-Debug : Fixed the 3D view isn't work after aomplier application 
+
+[Update 2019.04.15]
+-New fuction of segmentation SNAKE that can segment each image automatic and extra the surface of each vessol and show the signal in the part Signal.
+-Fixed the problem: IDLffDicom can't read the DicomDir file in 64bit system. We finded a pakage GDLffDICOM who can replace the IDLffDicom.
+
+[Update 2019.01.21]
+Even if a ficher of DICOMDIR isn't complete, now we can jump to the next series. (The problem of Germmy hospitol) 
+We can show the volume of Seminstrio .dcm
+
+[Update 2019.01.16]
+Debug:Now we can read the DICOMDIR of SIEMENS SKYRA (Fixed the Image Type is not String)
+
+[Update 2018.12.12]
+- Fix the bug: when the first time use Zoom window, cant find the var Data_SIT.
+
+[Update 2018.10.26]
+now  we can save the: 
+Cycle All(on parametre of each Cycle   ex: Mean of each Cycle )
+
+[Update 2018.10.23]
+1.New fonction in traitment window -> CUT -> sumCycle
+can rebuild the a mean Cycle cardiaque with all Cycle or in the aero we intrested in 
+eg : inspiration and expiration 
+2.Add the Scan Time for each Serie in the main draw window, will be helpful for mach the physologi signal 
+
+[Update 2018.01-10]
+New window EPI_ROI with 3 part SIT(Image_ Signal_Traitment).
+
+[Update 2017.09-]
+Optimization of main interview (wheel change image, red color marke the current image)
+New function of overlay images
+
+===================================================Before LIU arrive=========================================================================
+  
+
+[Update 2013.09.13]
+- Add malek levels in level list of "Zoomer" window.
+- Add noise export files when level is selected (image and curves).
+- Add BPM in main image.
+- Save the choice to reverse curve.
+
+[Update 2013.08.22]
+- Fix the previous update
+
+[Update 2013.08.20]
+- In the ROI window, the default mask drawing area radius has increased from 1px to 5px
+- It is now possible to save image without exam informations in the file menu of the main window
+
+[Update 2013.08.19]
+- Fix opening of DICOM Siemens series with only phase images
+
+[Update 2013.07.13]
+- Fix opening of some DICOM GE series
+- Adjust contrast on some images series
+- Fix the GE velocity encoding setting
+
+[Update 2013.06.06]
+- Fix opening of some DICOM Philips morphologic series
